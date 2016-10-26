@@ -111,7 +111,7 @@ class BaseController extends Controller
             $status_code = 422;
         }
         return array(
-            'message' => trans("wechat.$status_code"),
+            'message' => trans("response.$status_code"),
             'wechat_return' => $result,
             'status_code' => $status_code,
         );

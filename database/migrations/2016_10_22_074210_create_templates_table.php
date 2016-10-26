@@ -17,6 +17,7 @@ class CreateTemplatesTable extends Migration
             $table->increments('id');
             $table->integer("template_type");
             $table->string('template_short_id');
+            $table->string('template_length_id');
             $table->string('template_title');
             $table->text('body_json');
             $table->unsignedInteger('app_id');

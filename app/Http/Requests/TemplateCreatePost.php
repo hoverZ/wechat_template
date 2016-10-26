@@ -20,7 +20,6 @@ class TemplateCreatePost extends BaseRequest
     public function rules()
     {
         return [
-            'app_id' => 'required',
             'template_short_id' => 'required',
             'template_title' => 'required',
             'template_type' => 'required',
@@ -31,7 +30,6 @@ class TemplateCreatePost extends BaseRequest
     public function messages()
     {
         return [
-            'app_id.required' => trans('template.error.required.app_id'),
             'template_short_id.required' => trans('template.error.required.template_short_id'),
             'template_title.required' => trans('template.error.required.template_title'),
             'template_type.required' => trans('template.error.required.template_type'),
