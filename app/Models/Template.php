@@ -12,6 +12,6 @@ namespace App\Models;
 class Template extends BaseModel
 {
     protected $fillable = [
-        'app_id','template_id','template_title','template_status','template_type','body_json'
+        'app_id','template_short_id','template_title','template_status','template_type','body_json'
     ];
 }

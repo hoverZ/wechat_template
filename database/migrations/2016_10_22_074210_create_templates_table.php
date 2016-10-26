@@ -16,7 +16,7 @@ class CreateTemplatesTable extends Migration
         Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer("template_type");
-            $table->string('template_id');
+            $table->string('template_short_id');
             $table->string('template_title');
             $table->text('body_json');
             $table->unsignedInteger('app_id');

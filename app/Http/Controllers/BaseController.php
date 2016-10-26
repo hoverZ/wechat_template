@@ -99,4 +99,21 @@ class BaseController extends Controller
         }
         return $errors;
     }
+
+    /**
+     * 微信返回信息拼接
+     * @param $result
+     * @return array
+     */
+    protected function wechatJsonParse( $result ){
+        $status_code = 200;
+        if($result['errcode'] != 0){
+            $status_code = 422;
+        }
+        return array(
+            'message' => trans("wechat.$status_code"),
+            'wechat_return' => $result,
+            'status_code' => $status_code,
+        );
+    }
 }

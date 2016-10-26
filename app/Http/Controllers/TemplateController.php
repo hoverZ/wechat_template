@@ -14,7 +14,13 @@ use App\Http\Transforms\TemplateTransform;
 use App\Models\Template;
 use Dingo\Api\Http\Request;
 
-class TemplateController extends BaseController
+/**
+ * Class TemplateController
+ * @package App\Http\Controllers
+ *
+ * @property \App\Models\Template                       $template
+ */
+class TemplateController extends TemplateBaseController
 {
 
     public function create(TemplateCreatePost $request){
@@ -25,25 +31,24 @@ class TemplateController extends BaseController
         $this->response->error(trans('response.200'),200);
     }
 
-    public function update(Request $request,$app_id,$template_id){
-        $template = Template::find($template_id);
-        $template->fill($request->all());
-        $status = $template->save();
+    public function update(Request $request){
+        $this->template->fill($request->all());
+        $status = $this->template->save();
         if($status === false){
             $this->response->error(trans('response.400'),400);
         }
         $this->response->error(trans('response.200'),200);
     }
 
-    public function delete($app_id,$template_id){
-        $status = Template::destroy($template_id);
+    public function delete(){
+        $status = $this->template->delete();
         if($status == false){
             $this->response->error(trans('response.404'),404);
         }
         $this->response->error(trans('response.204'),204);
     }
 
-    public function getList(Request $request, $app_id){
+    public function getList(Request $request){
         $per_page = $request->input('per_page',10);
         if(!is_numeric($per_page)){
             $this->response->error(trans('response.422'),422);
@@ -52,8 +57,8 @@ class TemplateController extends BaseController
         return $this->response->paginator($template_list, new TemplateTransform());
     }
 
-    public function getItem($app_id){
-        $item = Template::find($app_id);
+    public function getItem(){
+        $item = $this->template;
         if( !$item ){
             $this->response->error(trans('response.410'),410);
         }

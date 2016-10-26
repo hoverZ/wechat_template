@@ -21,6 +21,8 @@ class CreateAppsTable extends Migration
             $table->integer('channel')->default(1)->comment('渠道,1 表示微信');
             $table->string('app_name', 128);
             $table->string('fail_call_back_url')->comment('发送模版消息反馈信息');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

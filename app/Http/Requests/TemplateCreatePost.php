@@ -21,7 +21,7 @@ class TemplateCreatePost extends BaseRequest
     {
         return [
             'app_id' => 'required',
-            'template_id' => 'required',
+            'template_short_id' => 'required',
             'template_title' => 'required',
             'template_type' => 'required',
             'body_json' => 'required',
@@ -32,7 +32,7 @@ class TemplateCreatePost extends BaseRequest
     {
         return [
             'app_id.required' => trans('template.error.required.app_id'),
-            'template_id.required' => trans('template.error.required.template_id'),
+            'template_short_id.required' => trans('template.error.required.template_short_id'),
             'template_title.required' => trans('template.error.required.template_title'),
             'template_type.required' => trans('template.error.required.template_type'),
             'body_json.required' => trans('template.error.required.body_json'),
