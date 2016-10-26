@@ -66,7 +66,7 @@ class WechatService
         try{
             switch ($type){
                 case self::INDUSTRY_SET:
-                    $result = $notice->setIndustry( $data['industryId1'], $data["industryId2"]);
+                    $result = $notice->setIndustry( $data['industry1'], $data["industry2"]);
                     break;
                 case self::INDUSTRY_GET:
                     $result = $notice->getIndustry();

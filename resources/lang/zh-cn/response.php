@@ -18,4 +18,5 @@ return [
     'token_absent' => 'token 缺失',
     'app_not_found' => '没有这个应用',
     'template_not_found' => '没有这个模版',
+    'redis_input_fail' => '模版消息入队失败',
 ];

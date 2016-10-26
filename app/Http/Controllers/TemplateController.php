@@ -11,7 +11,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TemplateCreatePost;
 use App\Http\Transforms\TemplateTransform;
+use App\Jobs\SendTemplate;
 use App\Models\Template;
+use App\Services\RedisService;
+use App\Services\Util;
 use App\Services\WechatService;
 use Dingo\Api\Http\Request;
 
@@ -36,7 +39,8 @@ class TemplateController extends TemplateBaseController
         $data['app_id'] = $this->app->id;
         if( $template ){
             $data['template_length_id'] = $template->template_length_id;
-        }else{
+        }
+        if(!$template || $request->sync_to_wechat){
             $result = WechatService::noticeOperationByApp($this->app->appid, $this->app->secret,
                 WechatService::TEMPLATE_ADD, ['template_short_id' => $request->template_short_id]);
             if($result['errcode'] == 0){
@@ -57,6 +61,7 @@ class TemplateController extends TemplateBaseController
             'template_title' => $request->template_title ? $request->template_title : $this->template->template_title,
             'body_json' => $request->body_json ? $request->body_json: $this->template->body_json,
             'template_type' => $request->template_type? $request->template_type: $this->template->template_type,
+            'template_length_id' => $request->template_length_id? $request->template_length_id: $this->template->template_length_id,
         ];
         $this->template->fill($data);
         $status = $this->template->save();
@@ -98,6 +103,25 @@ class TemplateController extends TemplateBaseController
             $this->response->error(trans('response.410'),410);
         }
         return $this->response->item($item,new TemplateTransform());
+    }
+
+    /**
+     * 发送模版消息
+     * @return mixed
+     */
+    public function send(Request $request){
+        $openids = json_decode( $request->openids, true);
+        $data = json_decode( $request->data, 1);
+        foreach ($openids as $openid){
+            $data['@OPENID'] = $openid;
+            $body_json = Util::replaceToTemplate( $this->template->body_json, $data);
+            $this->dispatch( new SendTemplate($this->app, json_decode($body_json,true)));
+//            $status = RedisService::pushToTemplateList($this->app->id,json_decode($body_json,true));
+//            if( !$status ){
+//                $this->response->error(trans('response.redis_input_fail'),500);
+//            }
+        }
+        $this->response->error(trans('response.200'),200);
     }
 
 }

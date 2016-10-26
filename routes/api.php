@@ -86,6 +86,24 @@ $api->version('v1', function ($api) {
                     'user_id' => '[0-9]+',
                 ));
 
+                $api->post('/{template_id}/send','TemplateController@send')->where(array(
+                    'app_id' => '[0-9]+',
+                    'template_id' => '[0-9]+',
+                    'user_id' => '[0-9]+',
+                ));
+
+            });
+
+            $api->group(['prefix' => '{app_id}'], function($api){
+
+                $api->post('/industry','UserOperationController@setIndustry');
+
+                $api->get('/industry', 'UserOperationController@getIndustry');
+
+                $api->get('/wechat/templates', 'UserOperationController@getPrivateTemplates');
+
+                $api->post('/template/send', 'UserOperationController@sendTemplate');
+
             });
 
         });
